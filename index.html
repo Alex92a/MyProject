@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Учёт финансов</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <h1>Учёт финансов</h1>
+
+    <!-- Главная таблица -->
+    <table id="finance-table">
+        <thead>
+            <tr>
+                <th>Стр.</th>
+                <th>Дата</th>
+                <th>Приход</th>
+                <th>Расход</th>
+                <th>Остаток</th>
+                <th>Примечание</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- [1] Начальная строка полностью стерильна, без даты -->
+            <tr data-row="1">
+                <td class="row-number">0001</td>
+                <td><input type="text" inputmode="numeric" class="cell-date" placeholder="" maxlength="10"></td>
+                <td><input type="text" inputmode="decimal" class="cell-income" placeholder="0,00"></td>
+                <td><input type="text" inputmode="decimal" class="cell-expense" placeholder="0,00"></td>
+                <td class="cell-balance"></td>
+                <td><input type="text" class="cell-comment" placeholder="" readonly data-full-comment="" tabindex="-1"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Правый плавающий виджет скролла -->
+    <div class="nav-widget" id="nav-widget">
+        <button class="nav-btn" id="nav-top" title="В начало">▲</button>
+        <div class="nav-track" id="nav-track">
+            <div class="nav-slider" id="nav-slider"></div>
+        </div>
+        <button class="nav-btn" id="nav-bottom" title="В конец">▼</button>
+    </div>
+
+    <!-- [7, 8] Фиксированная нижняя панель управления -->
+    <div class="bottom-controls-panel" id="bottom-panel">
+        <button class="btn-search" id="ctrl-search">🔍</button>
+        <button class="btn-export" id="ctrl-export">📤</button>
+        <button class="btn-import" id="ctrl-import">📥</button>
+        <button class="btn-print" id="ctrl-print">🖨</button>
+        <button class="btn-reset" id="ctrl-reset">🗑</button>
+    </div>
+
+    <input type="file" id="import-file-input" accept=".json" style="display: none;">
+
+    <!-- Модальное окно РЕДАКТИРОВАНИЯ сносок -->
+    <div class="modal-overlay" id="comment-modal">
+        <div class="modal-content">
+            <h3>Редактирование примечания</h3>
+            <div class="modal-field">
+                <label>Краткий комментарий (в таблицу):</label>
+                <input type="text" id="modal-short-input" placeholder="Виден в ячейке">
+            </div>
+            <div class="modal-field">
+                <label>Расширенный комментарий (сноска):</label>
+                <textarea id="modal-full-input" rows="3" placeholder="Полное описание транзакции"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" id="modal-cancel">Отмена</button>
+                <button class="btn-ok" id="modal-ok">ОК</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно ПРОСМОТРА сносок -->
+    <div class="modal-overlay" id="view-modal">
+        <div class="modal-content">
+            <div class="view-field">
+                <p id="view-full-text"></p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-ok" id="view-close">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно ПОИСКА/ФИЛЬТРАЦИИ -->
+    <div class="modal-overlay" id="search-modal">
+        <div class="modal-content">
+            <h3>Поиск по книге</h3>
+            <div class="modal-field">
+                <label>Введите текст, дату или сумму для поиска:</label>
+                <input type="text" id="modal-search-input" placeholder="Что ищем?">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" id="search-modal-reset" style="background: #e74c3c; color: #fff;">Сбросить</button>
+                <button class="btn-cancel" id="search-modal-cancel">Отмена</button>
+                <button class="btn-ok" id="search-modal-ok">Найти</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

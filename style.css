@@ -1,0 +1,414 @@
+@font-face {
+  font-family: 'Sber 15';
+  src: url('./Fonts/Sber15.woff2') format('woff2');
+  font-weight: 400; /* Regular */
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+    background-color: #F4ECD8; /* [9] Теплый фон страницы */
+    color: #333;
+    margin: 20px 20px 80px 20px; /* Отступ снизу под фиксированные кнопки */
+    font-family: sans-serif;
+}
+
+h1 {
+    font-family: "Noto Serif", serif;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 24px;
+    margin-bottom: 25px;
+}
+
+table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: collapse;
+}
+
+th {
+    font-family: "Noto Serif", serif;
+    font-weight: 700;
+    text-align: center;
+    background-color: #70AD47;
+    color: #000; /* Попробуйте белый для контраста или верните #2A2A2A */
+    border: 1px solid rgba(0, 0, 0, 0.15); /* Наша новая полупрозрачная сетка */
+    padding: 10px 5px;
+    vertical-align: middle; /* Добавляем автоцентр по высоте */
+}
+
+th:nth-child(1) { width: 5%; }
+th:nth-child(2) { width: 19%; }
+th:nth-child(3) { width: 19%; }
+th:nth-child(4) { width: 19%; }
+th:nth-child(5) { width: 19%; }
+th:nth-child(6) { width: 19%; }
+
+td {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    padding: 8px 6px;
+    vertical-align: middle;
+}
+
+/* [9] Цвета четных и нечетных строк таблицы */
+tbody tr:nth-child(odd) {
+    background-color: #C6E0B4;
+}
+tbody tr:nth-child(even) {
+    background-color: #E2EFDA;
+}
+
+.row-number {
+    font-family: monospace;
+    text-align: center;
+    font-weight: normal;
+    background-color: rgba(245, 245, 245, 0.6);
+    color: #555;
+    cursor: pointer;
+    user-select: none; 
+    -webkit-user-select: none;
+}
+
+td:nth-child(2), 
+td:nth-child(3), 
+td:nth-child(4), 
+td:nth-child(5) {
+    text-align: right;
+    font-family: 'Sber 15', sans-serif;
+    color: #00007A;
+    font-size: 14px; /* По умолчанию обычно 16px, задайте 14px, 13px или любое нужное значение */
+
+    /* Опускаем шрифт за счет смещения отступов */
+    padding-top: 10px;   /* Увеличиваем верхний отступ (опускает текст вниз) */
+    padding-bottom: 6px; /* Уменьшаем нижний отступ */
+}
+
+table input {
+    width: 100%;
+    box-sizing: border-box;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    text-align: inherit;
+    font-variant-numeric: tabular-nums;
+    padding: 0;
+    margin: 0;
+}
+
+.cell-date {
+    text-align: center;
+}
+
+.cell-balance {
+    color: #333;
+    font-family: inherit;
+    font-size: inherit;
+    font-variant-numeric: tabular-nums;
+}
+
+.cell-comment {
+    text-align: center;
+    color: #1e3d59;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* [2] Стиль для заблокированного примечания */
+.cell-comment:disabled {
+    color: rgba(0, 0, 0, 0.2);
+    cursor: not-allowed;
+}
+
+table input::placeholder {
+    color: rgba(0, 0, 0, 0.25);
+}
+
+/* [4] Кастомный виджет скролла с поддержкой плавного исчезновения */
+.nav-widget {
+    position: fixed;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 40px;
+    background: rgba(43, 43, 43, 0.85);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.nav-widget.visible { 
+    opacity: 1; 
+    visibility: visible;
+}
+
+.nav-btn {
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.nav-btn:active { color: #aaa; }
+
+.nav-track {
+    width: 4px;
+    height: 120px;
+    background: rgba(255,255,255,0.2);
+    margin: 10px 0;
+    position: relative;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.nav-slider {
+    width: 12px;
+    height: 24px;
+    background: #fff;
+    border-radius: 6px;
+    position: absolute;
+    left: -4px;
+    top: 0;
+    cursor: grab;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* [7] Фиксированный подвал для кнопок управления */
+.bottom-controls-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #F4ECD8;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px 0;
+    z-index: 2500;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Скрытие подвала при вызове экранной клавиатуры */
+.bottom-controls-panel.keyboard-active {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.bottom-controls-panel button {
+    width: 42px;  /* Фиксированная ширина кнопки */
+    height: 42px; /* Фиксированная высота кнопки */
+    padding: 0;   /* Сбрасываем внутренние отступы, чтобы эмодзи не сжимался */
+    border-radius: 50%; /* Идеально круглая форма */
+    border: none;
+    font-size: 24px; /* ИЗМЕНЕНО: Эмодзи стал крупным, на всю кнопку */
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; /* Центрируем большой эмодзи строго посередине */
+    background: transparent; /* Полностью прозрачный фон */
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Эффект при наведении или нажатии пальцем на телефоне */
+.bottom-controls-panel button:hover,
+.bottom-controls-panel button:active {
+    background: rgba(0, 0, 0, 0.06); /* Мягкий круглый отсвет при клике */
+    transform: scale(1.15); /* Эмодзи будет приятно «пружинить» (слегка увеличиваться) при нажатии */
+}
+
+/* Очищаем старые тяжелые цвета кнопок */
+.btn-search, .btn-export, .btn-import, .btn-print, .btn-reset { 
+    background: transparent !important; 
+}
+
+/* Модальные окна */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+}
+
+.modal-field {
+    margin-bottom: 15px;
+}
+
+.modal-field label {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.modal-field input, .modal-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+}
+
+.view-field p {
+    font-size: 16px;
+    color: #000;
+    margin: 10px 0 20px 0;
+    word-break: break-word;
+    white-space: pre-wrap;
+    line-height: 1.4;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-actions button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-cancel { background: #eee; color: #555; }
+.btn-ok { background: #5a738e; color: #fff; }
+
+.phantom-thousands-1, .phantom-thousands-2 { letter-spacing: 0.18em; }
+
+/* Стили оптимизации под печать [8] */
+@media print {
+    /* 1. Настройка физических полей печатного листа А4 */
+    @page {
+        margin: 10mm; /* Минимальные аккуратные поля для бумаги */
+        size: auto;
+    }
+
+    /* 2. Сброс отступов страницы и принудительное расширение */
+    body { 
+        margin: 0 !important; 
+        padding: 0 !important; 
+        background: #fff !important; 
+        width: 100% !important;
+    }
+
+    /* 3. Скрытие элементов управления */
+    .nav-widget, 
+    .bottom-controls-panel, 
+    .modal-overlay,
+    .tabs-container,
+    .no-print { 
+        display: none !important; 
+    }
+
+    /* 4. Автоматическая подгонка таблицы под ширину листа без срезки */
+    table, .table-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        table-layout: fixed !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 5. Печать зеленой шапки таблицы */
+    th { 
+        background-color: #70AD47 !important; 
+        color: #2A2A2A !important; 
+        -webkit-print-color-adjust: exact; 
+        print-color-adjust: exact; 
+    }
+
+    /* 6. Печать зеленых строк-«зебры» */
+    tbody tr:nth-child(odd) { 
+        background-color: #C6E0B4 !important; 
+        -webkit-print-color-adjust: exact; 
+        print-color-adjust: exact; 
+    }
+    tbody tr:nth-child(even) { 
+        background-color: #E2EFDA !important; 
+        -webkit-print-color-adjust: exact; 
+        print-color-adjust: exact; 
+    }
+
+    /* 7. Защита и выравнивание цифр шрифта Sber 15 при печати */
+    td:nth-child(2), 
+    td:nth-child(3), 
+    td:nth-child(4), 
+    td:nth-child(5) {
+        font-family: 'Sber 15', sans-serif !important;
+        line-height: 1.3 !important;
+        
+        /* Применяем ваши точные отступы, чтобы опустить шрифт */
+        padding-top: 10px !important;
+        padding-bottom: 6px !important;
+        
+        vertical-align: middle !important;
+        overflow: visible !important;
+    }
+
+    /* 8. Исключение разрыва строк таблицы пополам при переходе на 2-ю страницу */
+    tr {
+        page-break-inside: avoid;
+    }
+}
+
+/* Скрывает плейсхолдер, если ячейка заблокирована */
+input:disabled::placeholder {
+  color: transparent !important;
+}
