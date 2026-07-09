@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Sber 15';
-  src: url('./Fonts/Sber15.woff2') format('woff2');
+  src: url('./Sber15.woff2') format('woff2')
   font-weight: 400; /* Regular */
   font-style: normal;
   font-display: swap;

@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'finance-v1';
+﻿const CACHE_NAME = 'finance-v1.1';
 
 // Список файлов, которые нужно запереть в памяти устройства
 const ASSETS = [
@@ -7,9 +7,8 @@ const ASSETS = [
   'style.css',
   'script.js',
   'manifest.json',
-  'icon-192.png',  // Обновлено
-  'icon-512.png',  // Обновлено
-  'Fonts/Sber15.woff2'
+  'icon.png',
+  'Sber15.woff2'
 ];
 
 // При установке скачиваем все файлы в локальный кеш
